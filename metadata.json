@@ -1,0 +1,5 @@
+{
+  "name": "BattleOS",
+  "description": "A professional tournament bracket manager designed for LARP combat environments, featuring automated single-elimination bracket generation with bye handling and real-time advancement.",
+  "requestFramePermissions": []
+}
