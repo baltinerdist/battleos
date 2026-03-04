@@ -31,9 +31,9 @@ steps:
       - '--quiet'
 
 substitutions:
-  _IMAGE_NAME: gcr.io/$PROJECT_ID/battleos
+  _IMAGE_NAME: europe-west1-docker.pkg.dev/gen-lang-client-0826122509/battleos/battleos
   _SERVICE_NAME: battleos
-  _DEPLOY_REGION: us-central1
+  _DEPLOY_REGION: europe-west1
 
 options:
   logging: CLOUD_LOGGING_ONLY
