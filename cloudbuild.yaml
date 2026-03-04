@@ -1,0 +1,39 @@
+steps:
+  # Build the Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - build
+      - '-t'
+      - '$_IMAGE_NAME:$COMMIT_SHA'
+      - '-t'
+      - '$_IMAGE_NAME:latest'
+      - '-f'
+      - 'Dockerfile'
+      - '.'
+
+  # Push the image to the registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', '$_IMAGE_NAME:$COMMIT_SHA']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', '$_IMAGE_NAME:latest']
+
+  # Deploy to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - run
+      - deploy
+      - '$_SERVICE_NAME'
+      - '--image=$_IMAGE_NAME:$COMMIT_SHA'
+      - '--region=$_DEPLOY_REGION'
+      - '--platform=managed'
+      - '--quiet'
+
+substitutions:
+  _IMAGE_NAME: gcr.io/$PROJECT_ID/battleos
+  _SERVICE_NAME: battleos
+  _DEPLOY_REGION: us-central1
+
+options:
+  logging: CLOUD_LOGGING_ONLY
